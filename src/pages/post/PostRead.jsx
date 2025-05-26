@@ -9,6 +9,7 @@ import ConditionalRenderer from '../../component/conditional/ConditionalRenderer
 import DisabledIf from '../../component/conditional/DisabledIf';
 import CommentInput from '../../component/comment/CommentInput';
 import CommentList from '../../component/comment/CommentList';
+import useComment from '../../hooks/useComment';
 
 function PostRead() {
   const [params] = useSearchParams();
@@ -18,6 +19,7 @@ function PostRead() {
     navigate("/");
 
   const [post, loading, error] = useFetch(`/posts/post?pno=${pno}`);
+  const vComment = useComment();
   const { principal} = useAuthStore();
 
   if(loading) return <LoadingSpinner />
@@ -54,10 +56,10 @@ function PostRead() {
       <DisabledIf condition={principal && principal.username===post.writer} >
          <Button variant="success" onClick={()=>navigate(`/board/update?bno=${post.pno}`)}>변경하기</Button>
       </DisabledIf>
-      {/* <div style={{width: "834px"}}>
-        <CommentInput isLogin={principal? true:false} onWriteComment={onWriteComment} />
-        <CommentList loginId={principal && principal.username} comments={board.comments} onDeleteComment={onDeleteComment} />
-      </div> */}
+      <div style={{width: "834px"}}>
+        <CommentInput isLogin={principal? true:false} field={vComment} />
+        <CommentList loginId={principal && principal.username} comments={post.comments} onDelete={onDelete} />
+      </div>
     </>
   )
 }
