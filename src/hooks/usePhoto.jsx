@@ -1,12 +1,12 @@
 import { useState } from "react";
 
-function useProfile() {
-  const [photo, setPhoto] = useState(null);
+function usePhoto() {
+  const [value, setValue] = useState(null);
   const [photoUrl, setPhotoUrl] = useState(null);
 
-  const onChangePhoto = (e)=>{
+  const change = (e)=>{
     const file = e.target.files[0];
-    setPhoto(file);
+    setValue(file);
 
     if(file) {
       const reader = new FileReader();
@@ -17,7 +17,7 @@ function useProfile() {
     }
   }
 
-  return {photo, photoUrl, onChangePhoto, setPhotoUrl};
+  return {value, photoUrl, change, setPhotoUrl};
 }
 
-export default useProfile
+export default usePhoto

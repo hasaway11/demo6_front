@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import ProfileField from "../../component/member/ProfileField";
-import useProfile from "../../hooks/useProfile";
+import useProfile from "../../hooks/usePhoto";
 import useFetch from "../../hooks/useFetch";
 import LoadingSpinner from "../../component/common/LoadingSpinner";
 

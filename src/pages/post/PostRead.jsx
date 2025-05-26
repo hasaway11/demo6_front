@@ -48,7 +48,9 @@ function PostRead() {
           <GoodButton pno={post.bno} initialGoodCnt={post.goodCnt} />
         </ConditionalRenderer>
       </div>
+      
       <div style={{width: "834px", overflow: "hidden", minHeight:"600px"}} dangerouslySetInnerHTML={{ __html: DOMPurify.sanitize(post.content) }} />
+      
       <DisabledIf condition={principal && principal.username===post.writer} >
          <Button variant="success" onClick={()=>navigate(`/board/update?bno=${post.pno}`)}>변경하기</Button>
       </DisabledIf>

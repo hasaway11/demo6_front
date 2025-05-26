@@ -5,29 +5,46 @@ import BlockButton from '../../component/common/BlockButton';
 import api from '../../util/aplClient';
 import useAuthStore from '../../store/authStore';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 function MemberLogin() {
+  const [isSubmitting, setSubmitting] = useState
+  (false);
+
   const vUsername = useUsername();
   const vPassword = usePassword();
   const {setLogin } = useAuthStore();
   const navigate = useNavigate();
 
-  const login=async ()=>{
+  const doLogin=async ()=>{
+    const r1 = vUsername.check();
+    const r2 = vPassword.check();
+    if(!(r1 && r2))
+      return;
+
     const requestForm = {username:vUsername.value, password:vPassword.value};
+    setSubmitting(true); 
+
     try {
       const response = await api.post(`/login`, requestForm);
       setLogin(response.data.username);
+      setSubmitting(false);
       navigate("/");
     } catch(err) {
       console.log(err);
+    } finally {
+      setSubmitting(false);
     }
   }
 
+  // navigate()는 화면 이동만 하기 때문에 렌더링 로직과 충돌되면 UX 이슈가 생깁니다.
+  // if(isSubmitting) return <LoadingSpinner />
+
   return (
     <div>
-      <FormField label='아이디' onChange={vUsername.change} onBlur={vUsername.check} message={vUsername.message} />
-      <FormField label='비밀번호' onChange={vPassword.change} onBlur={vPassword.check} message={vPassword.message} />
-      <BlockButton label="로그인" onClick={doLogin} />
+      <FormField label='아이디' name="username" field={vUsername} />
+      <FormField label='비밀번호' name="password" field={vPassword} />
+      <BlockButton label={isSubmitting ? "로그인 중..." : "로그인"} onClick={doLogin} style='primary' />
     </div>
   )
 }

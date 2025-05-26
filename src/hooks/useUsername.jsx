@@ -3,10 +3,9 @@ import api from "../util/aplClient";
 
 const pattern =  /^[0-9a-z]{6,10}$/;
 
-function useUsername(availableChcek=false) {
+function useUsername(availableCheck=false) {
   const [value, setValue] = useState('');
   const [message, setMessage] = useState('');
-  const [available, setAvailable] = useState(false);
 
   const change = e=>setValue(e.target.value);
 
@@ -15,20 +14,18 @@ function useUsername(availableChcek=false) {
     const testResult = pattern.test(value);
     if (!testResult) {
       setMessage('아이디는 소문자와 숫자 6~10자입니다');
-      return;
+      return false;
     }
-    if (availableChcek) {
-      setAvailable(true);
+    if (availableCheck) {
       try {
         const res = await api.get(`/api/members/check-username?username=${value}`);
-        if (res.data.available) {
-        } else {
-          setMessage('사용중인 아이디입니다');
-        }
+        return true;
       } catch (err) {
-        setMessage('서버 오류로 확인할 수 없습니다');
-      } finally {
-        setAvailable(false);
+        if(err.status===409)
+          setMessage('사용중인 아이디입니다');
+        else
+          console.log(err);
+        return false;
       }
     }
   }
