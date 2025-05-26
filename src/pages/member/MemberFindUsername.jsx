@@ -2,6 +2,8 @@ import { useState } from "react";
 import FormField from "../../component/member/FormField";
 import useEmail from "../../hooks/useEmail";
 import api from "../../util/aplClient";
+import BlockButton from "../../component/common/BlockButton";
+import { Alert } from "react-bootstrap";
 
 function MemberFindUsername() {
   const [isSubmitting, setSubmitting] = useState(false);
@@ -11,6 +13,9 @@ function MemberFindUsername() {
   const vEmail = useEmail();
 
   const findUsername=async ()=>{
+    setUsername("");
+    setMessage("");
+    
     if (!vEmail.check()) return;
     if (isSubmitting) return;
 
@@ -29,10 +34,10 @@ function MemberFindUsername() {
   return (
     <div>
       <h1>아이디 찾기</h1>
-      {username && <span style={{color:'green'}}>아이디 : {username}</span>}
-      {message && <span style={{color:'red'}}>{message}</span>}
-      <FormField label='이메일' onChange={vEmail.change} onBlur={vEmail.check} message={vEmail.message} />
-      <BlockButton BlockButton label={isSubmitting ? "찾는 중..." : "아이디 찾기"} onClick={findUsername} style='success' />
+      <FormField label='이메일' field={vEmail} />
+      {username &&  <Alert variant='success'>당신의 아이디 : {username}</Alert>}
+      {message && <Alert variant='danger'>{message}</Alert>}
+      <BlockButton label={isSubmitting ? "찾는 중..." : "아이디 찾기"} onClick={findUsername} style='success' />
     </div>
   )
 }

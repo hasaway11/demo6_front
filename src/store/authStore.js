@@ -6,6 +6,7 @@ const useAuthStore = create((set) => ({
   loading: true,
 
   checkLogin: async () => {
+    console.log("checkLogin");
     try {
       const res = await api.get('/api/auth/check');
       set({ principal: { username: res.data.username } });
@@ -17,11 +18,15 @@ const useAuthStore = create((set) => ({
     }
   },
 
-  setLogin: (username) => set({ principal: { username } }),
+  setLogin: (username) => {
+    console.log("setLogin");
+    set({ principal: { username } })
+  },
 
   setLogout: async () => {
+    console.log("setLogin");
     try {
-      await api.post('/api/auth/logout');
+      await api.post('/logout');
     } catch (err) {
       console.log('Logout failed:', err);
     } finally {

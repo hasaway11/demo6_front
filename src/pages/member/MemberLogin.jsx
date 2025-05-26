@@ -26,7 +26,7 @@ function MemberLogin() {
     setSubmitting(true); 
 
     try {
-      const response = await api.post(`/login`, requestForm);
+      const response = await api.post(`/login`, new URLSearchParams(requestForm));
       setLogin(response.data.username);
       setSubmitting(false);
       navigate("/");
