@@ -10,21 +10,20 @@ import usePostStore from "../../store/postStore";
 function PostList() {
   const [params] = useSearchParams();
   const pageno = getPageno(params.get('pageno'));
-  const {posts, loading, error, fetchPosts} = usePostStore();
+  const {data, loading, error, fetchData} = usePostStore();
 
   useEffect(() => {
-    fetchPosts(pageno);
-  }, [pageno, fetchPosts]);
-
+    fetchData(pageno);
+  }, [pageno, fetchData]);
 
   if(loading) return <LoadingSpinner />
   if(error) return <div>{error.message}</div>;
-  if(!posts) return null;
+  if(!data) return null;
 
   return (
     <>
-      <Posts posts={posts} />
-      <Paginations data={posts} />
+      <Posts posts={data.posts} />
+      <Paginations data={data} />
     </>
   )
 }

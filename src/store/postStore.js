@@ -1,20 +1,21 @@
+import { create } from "zustand";
 import api from "../util/aplClient"
 
 const usePostStore=create((set)=>({
-    posts: [],
+    data: null,
     post: null,
     comments: [],
     loading: false,
     error:null,
 
-    fetchPosts: async (pageno) => {
+    fetchData: async (pageno) => {
       set({ loading: true });
       try {
-        const { data } = await api.get(`/posts?pageno=${pageno}`);
-        set({ posts: data });
+        const { data } = await api.get(`/api/posts?pageno=${pageno}`);
+        set({ data: data });
       } catch (err) {
         set({error:err});
-        console.error('Failed to fetch posts:', error);
+        console.error('Failed to fetch posts:', err);
       } finally {
         set({ loading: false });
       }
@@ -23,12 +24,13 @@ const usePostStore=create((set)=>({
     fetchPost: async (pno) => {
       set({ loading: true });
       try {
-        const { data } = await api.get(`/posts/post?pno=${pno}`);
-        set({ post: data.post });
-        set({ comments: data.comments});
+        const { data } = await api.get(`/api/posts/post?pno=${pno}`);
+        const {comments, ...postWithoutComments} = data;
+        set({ post: postWithoutComments });
+        set({ comments: comments});
       } catch (err) {
         set({error:err});
-        console.error('Failed to fetch post:', error);
+        console.error('Failed to fetch post:', err);
       } finally {
         set({ loading: false });
       }
@@ -38,11 +40,11 @@ const usePostStore=create((set)=>({
     fetchComments: async (pno) => {
       set({ loading: true });
       try {
-        const { data } = await api.get(`/posts/${postId}/comments`);
+        const { data } = await api.get(`/api/posts/${pno}/comments`);
         set({ comments: data });
       } catch (err) {
         set({error:err});
-        console.error('Failed to fetch comments:', error);
+        console.error('Failed to fetch comments:', err);
       } finally {
         set({ loading: false });
       }

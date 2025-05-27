@@ -1,11 +1,12 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
 import ReactQuill from "react-quill-new";
 
-import useFetch from '../../hooks/useFetch';
 import LoadingSpinner from "../../component/common/LoadingSpinner";
 import { Button, Form } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import usePostStore from "../../store/postStore";
+import useAuthStore from "../../store/authStore";
+import useInput from "../../hooks/useInput";
 
 
 function PostUpdate() {
@@ -15,9 +16,10 @@ function PostUpdate() {
   if(!pno)
     navigate("/");
 
-  const {post, loading, error} = usePostStore();
+  const {post, loading, error, fetchPost} = usePostStore();
   const { principal} = useAuthStore();
-  const vTitle = useFo
+  const vTitle = useInput();
+  const [content, setContent] = useState('');
 
   const modules = {
     toolbar: {
@@ -39,9 +41,9 @@ function PostUpdate() {
     <>
       <Form.Group className="mb-3">
         <Form.Label>제목:</Form.Label>
-        <Form.Control type="text" name="title" onChange={e=>setTitle(e.target.value)} />
+        <Form.Control type="text" name="title" onChange={vTitle.change} />
       </Form.Group>
-      <ReactQuill theme="snow" name="content" modules={modules}  value={content} onChange={(value)=>setContent(value)} style={{ height: '600px' }}/>
+      <ReactQuill theme="snow" name="content" modules={modules} value={content} onChange={(value)=>setContent(value)} style={{ height: '600px' }}/>
       <div className="d-grid gap-2 mb-3 mt-3">
         <Button variant="outline-primary" size="lg" onClick={update}>글쓰기</Button>
       </div>

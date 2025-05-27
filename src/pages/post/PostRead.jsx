@@ -1,6 +1,7 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import DOMPurify from 'dompurify';
+import { useEffect } from 'react';
 
 import useAuthStore from '../../store/authStore';
 import LoadingSpinner from '../../component/common/LoadingSpinner';
@@ -17,7 +18,7 @@ function PostRead() {
   if(!pno)
     navigate("/");
 
-  const {post, loading, error, fetchPost} = usePostStore();
+  const {post, comments, loading, error, fetchPost} = usePostStore();
   const { principal} = useAuthStore();
   const vComment = useComment();
 
@@ -69,7 +70,7 @@ function PostRead() {
 
       <div className='mt-3 mb-3'>
         { principal!=null && <CommentInput pno={pno} field={vComment} /> }
-        <CommentList loginId={principal && principal.username} comments={post.comments} />
+        <CommentList loginId={principal && principal.username} comments={comments} />
       </div>
     </>
   )

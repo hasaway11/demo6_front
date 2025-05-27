@@ -1,5 +1,6 @@
 import { useState } from "react";
 import api from "../util/aplClient";
+import usePostStore from "../store/postStore";
 
 function useComment() {
   const [value, setValue] = useState('');
