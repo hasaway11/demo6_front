@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import api from "../util/aplClient";
 
 function useComment() {
   const [value, setValue] = useState('');
@@ -16,11 +17,11 @@ function useComment() {
     return false;
   }
 
-  const write=async(pno)=>{
+  const write=async(pno, onUpdate)=>{
     const requestForm =  {pno: pno, content:value};
     try {
-      await axios.post(`/api/comments`, requestForm);
-      navigate(`/posts/read?pno=${pno}`)
+      const response = await api.post(`/api/comments`, new URLSearchParams(requestForm));
+      onUpdate(response.data);
     } catch(err) {
       console.log(err);
     }

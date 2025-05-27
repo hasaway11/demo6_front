@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
-import styles from './Paginations.module.css';
 import { Pagination } from 'react-bootstrap';
 
 const Paginations = ({ data }) => {
@@ -17,7 +16,7 @@ const Paginations = ({ data }) => {
   const move = (pageno) => navigate(`/?pageno=${pageno}`);
 
   return (
-    <Pagination className={styles.paginations}>
+    <Pagination style={{justifyContent:'center'}} className="mt-5">
       {prev > 0 && <Pagination.Item onClick={() => move(prev)}>이전으로</Pagination.Item>}
       {
         pages.map(i => (

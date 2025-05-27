@@ -5,8 +5,16 @@ import Nav from './fragments/Nav';
 import Aside from './fragments/Aside';
 import Footer from './fragments/Footer';
 import AppRoutes from './routes/AppRoutes';
+import useAuthStore from './store/authStore';
+import { useEffect } from 'react';
 
 function App() {
+  const { checkLogin } = useAuthStore();
+
+  useEffect(() => {
+    checkLogin();
+  }, [checkLogin]);
+
   return (
     <div className="App">
       <Header />

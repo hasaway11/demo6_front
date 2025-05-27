@@ -1,4 +1,5 @@
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
+import styles from './Posts.module.css';
 
 function Posts({posts}) {
   return (
@@ -13,13 +14,13 @@ function Posts({posts}) {
           posts.map(post=>{
             return (
               <tr key={post.pno}>
-                <td>{post.pno}</td>
-                <td>
+                <td className={styles.pno}>{post.pno}</td>
+                <td className={styles.title}>
                   <Link to={`/post/read?pno=${post.pno}`}>{post.title}</Link>
                 </td>
-                <td>{post.writer}</td>
-                <td>{post.writeTime}</td>
-                <td>{post.readCnt}</td>
+                <td className={styles.writer}>{post.writer}</td>
+                <td className={styles.writeTime}>{post.writeTime}</td>
+                <td className={styles.readCnt}>{post.readCnt}</td>
               </tr>
             )
           })

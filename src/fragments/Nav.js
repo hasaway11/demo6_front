@@ -8,8 +8,6 @@ function Nav() {
     setLogout();
   }
 
-  console.log(principal)
-
   if(!principal) {
     return (
       <nav>
