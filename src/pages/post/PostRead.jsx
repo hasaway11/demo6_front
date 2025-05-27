@@ -1,13 +1,14 @@
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import useAuthStore from '../../store/authStore';
-import useFetch from '../../hooks/useFetch';
-import LoadingSpinner from '../../component/common/LoadingSpinner';
-import GoodButton from '../../component/post/GoodButton';
 import { Button } from 'react-bootstrap';
 import DOMPurify from 'dompurify';
+
+import useAuthStore from '../../store/authStore';
+import LoadingSpinner from '../../component/common/LoadingSpinner';
+import GoodButton from '../../component/post/GoodButton';
 import CommentInput from '../../component/comment/CommentInput';
 import CommentList from '../../component/comment/CommentList';
 import useComment from '../../hooks/useComment';
+import usePostStore from "../../store/postStore";
 
 function PostRead() {
   const [params] = useSearchParams();
@@ -16,12 +17,15 @@ function PostRead() {
   if(!pno)
     navigate("/");
 
-  const [post, loading, error, updateComments] = useFetch(`/posts/post?pno=${pno}`);
-  const vComment = useComment();
+  const {post, loading, error, fetchPost} = usePostStore();
   const { principal} = useAuthStore();
+  const vComment = useComment();
+
+  useEffect(() => {
+    fetchPost(pno);
+  }, [pno, fetchPost]);
 
   const deletePost = ()=>{}
-
 
   if(loading) return <LoadingSpinner />
   if(error) return <div>{error.message}</div>
@@ -64,7 +68,7 @@ function PostRead() {
       }
 
       <div className='mt-3 mb-3'>
-        { principal!=null && <CommentInput pno={pno} field={vComment} onUpdate={updateComments} /> }
+        { principal!=null && <CommentInput pno={pno} field={vComment} /> }
         <CommentList loginId={principal && principal.username} comments={post.comments} />
       </div>
     </>

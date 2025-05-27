@@ -1,10 +1,12 @@
 import { useNavigate, useSearchParams } from "react-router-dom";
+import ReactQuill from "react-quill-new";
 
 import useFetch from '../../hooks/useFetch';
 import LoadingSpinner from "../../component/common/LoadingSpinner";
 import { Button, Form } from "react-bootstrap";
 import { useEffect, useState } from "react";
-import ReactQuill from "react-quill-new";
+import usePostStore from "../../store/postStore";
+
 
 function PostUpdate() {
   const [params] = useSearchParams();
@@ -13,8 +15,9 @@ function PostUpdate() {
   if(!pno)
     navigate("/");
 
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const {post, loading, error} = usePostStore();
+  const { principal} = useAuthStore();
+  const vTitle = useFo
 
   const modules = {
     toolbar: {
@@ -22,12 +25,9 @@ function PostUpdate() {
     }
   };
 
-  const [post, loading, error] = useFetch(`/posts/post?pno=${pno}`);
-
-  useEffect(()=>{
-      setTitle(post.title);
-      setContent(post.content);
-    }, [post]);
+  useEffect(() => {
+    fetchPost(pno);
+  }, [pno, fetchPost]);
 
   if(loading) return <LoadingSpinner />
   if(error) return <div>{error.message}</div>

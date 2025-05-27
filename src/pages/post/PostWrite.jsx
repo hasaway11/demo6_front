@@ -4,10 +4,11 @@ import { useNavigate } from "react-router-dom";
 import 'react-quill-new/dist/quill.snow.css';
 import { Button, Form } from "react-bootstrap";
 import './PostWrite.css'
+import useInput from "../../hooks/useInput";
 
 function PostWrite() {
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const vTitle = useInput();
+  const vContent = useInput();
   const navigate = useNavigate();
   const modules = {
     toolbar: {
@@ -28,9 +29,9 @@ function PostWrite() {
     <>
       <Form.Group className="mb-3">
         <Form.Label>제목:</Form.Label>
-        <Form.Control type="text" name="title" onChange={e=>setTitle(e.target.value)} />
+        <Form.Control type="text" name="title" onChange={vTitle.change} />
       </Form.Group>
-      <ReactQuill theme="snow" name="content" modules={modules}  value={content} onChange={(value)=>setContent(value)} style={{ height: '600px' }}/>
+      <ReactQuill theme="snow" name="content" modules={modules}  value={vContent.value} onChange={(value)=>setContent(value)} style={{ height: '600px' }}/>
       <div className="d-grid gap-2 mb-3 mt-3">
         <Button variant="outline-primary" size="lg" onClick={write}>글쓰기</Button>
       </div>
