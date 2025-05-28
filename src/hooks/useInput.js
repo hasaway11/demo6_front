@@ -8,7 +8,7 @@ function useInput() {
 
   const check=()=>{
     setMessage('');
-    if(value==='')
+    if(value!=='')
       return true;
     setMessage('필수 입력입니다');
     return false;

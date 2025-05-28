@@ -26,7 +26,9 @@ function PostRead() {
     fetchPost(pno);
   }, [pno, fetchPost]);
 
-  const deletePost = ()=>{}
+  const deletePost = ()=>{
+    
+  }
 
   if(loading) return <LoadingSpinner />
   if(error) return <div>{error.message}</div>
@@ -70,7 +72,7 @@ function PostRead() {
 
       <div className='mt-3 mb-3'>
         { principal!=null && <CommentInput pno={pno} field={vComment} /> }
-        <CommentList loginId={principal && principal.username} comments={comments} />
+        <CommentList loginId={principal && principal.username} comments={comments} onRemove={vComment.remove} />
       </div>
     </>
   )

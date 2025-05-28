@@ -1,6 +1,6 @@
 import { Button } from 'react-bootstrap'
 
-function CommentList({loginId, comments, onDelete}) {
+function CommentList({loginId, comments, onRemove}) {
   return (
 		<>
 		{
@@ -11,7 +11,7 @@ function CommentList({loginId, comments, onDelete}) {
 							<div>
 								<strong>{comment.writer}</strong>&nbsp;&nbsp;
 								{
-									(comment.writer===loginId) && <Button variant="outline-danger" size="sm" onClick={()=>onDelete(comment.cno)}>삭제</Button>
+									(comment.writer===loginId) && <Button variant="outline-danger" size="sm" onClick={()=>onRemove(comment.cno, comment.pno)}>삭제</Button>
 								}			
 							</div>
 						<div>{comment.writeTime}</div>

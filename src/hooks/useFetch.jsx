@@ -23,12 +23,7 @@ function useFetch(url) {
     fetch();
   }, [url]);
 
-  // 댓글만 갱신하는 함수
-  const updateComments = (newComments) => {
-    setData((prevData) => ({...prevData, comments: newComments }));
-  };
-
-  return [data, loading, error, updateComments]
+  return [data, loading, error]
 }
 
 export default useFetch

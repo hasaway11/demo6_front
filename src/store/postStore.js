@@ -36,19 +36,9 @@ const usePostStore=create((set)=>({
       }
     },
 
-    // 댓글 목록 가져오기
-    fetchComments: async (pno) => {
-      set({ loading: true });
-      try {
-        const { data } = await api.get(`/api/posts/${pno}/comments`);
-        set({ comments: data });
-      } catch (err) {
-        set({error:err});
-        console.error('Failed to fetch comments:', err);
-      } finally {
-        set({ loading: false });
-      }
-    },
+    fetchComments:(data)=>{
+      set({comments:data});
+    }
 }))
 
 export default usePostStore;
